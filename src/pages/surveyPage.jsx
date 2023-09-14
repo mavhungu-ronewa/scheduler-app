@@ -1,6 +1,7 @@
 import { useEffect, useState } from 'react';
 import { useParams } from 'react-router-dom';
 import axios from 'axios';
+import { NavigationComponent, Spinner } from "../components";
 
 const SurveyPage = () => {
   const { surveyId } = useParams();
@@ -10,26 +11,28 @@ const SurveyPage = () => {
     const fetchSurveyData = async () => {
       try {
         const response = await axios.get(`http://localhost:3001/api/survey/${surveyId}`);
-        console.log('surveyId and backend response',{surveyId, response})
         setSurveyData(response.data);
       } catch (error) {
         console.error('Error:', error);
       }
     };
-    fetchSurveyData();
+    fetchSurveyData()
+    ;
   }, [surveyId]);
 
   return (
     <div>
-      <h1>Survey Page</h1>
       {surveyData ? (
         <div>
+          <NavigationComponent />
           <h2>Survey ID: {surveyData.id}</h2>
           <p>Dates: {surveyData.dates}</p>
           {/* Display other survey data */}
         </div>
       ) : (
-        <p>Loading survey data...</p>
+        <div className={'bg-gray-100 min-h-screen flex items-center justify-center'}>
+          <Spinner />
+        </div>
       )}
     </div>
   );

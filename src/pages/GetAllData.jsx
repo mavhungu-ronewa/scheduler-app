@@ -23,7 +23,7 @@ const GetAllData = ()=>{
     <>
       { isLoading ? (
         <div className={'bg-gray-100 min-h-screen flex items-center justify-center'}>
-          <p>Mavhungu Ronewa loading</p>
+          {/*<p>Mavhungu Ronewa loading</p>*/}
           <Spinner />
         </div>
         ): (
