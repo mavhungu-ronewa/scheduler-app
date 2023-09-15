@@ -1,30 +1,13 @@
-import { useEffect, useState } from "react";
-import axios from "axios";
 import { BackButton, CardComponent, Spinner } from "../components";
+import useFetchSurveyData from "../hooks/useFetchSurveyData.jsx";
 
 const GetAllData = ()=>{
-  const [surveyDatas, setSurveyData] = useState([])
-  const [isLoading,setIsLoading] = useState(true);
-
-  useEffect(() => {
-    const fetchSurveyData = async () => {
-      try {
-        const response = await axios.get(`http://localhost:3001/api/survey`);
-        setSurveyData(response.data);
-        setIsLoading(false);
-      } catch (error) {
-        console.error('Error:', error);
-        setIsLoading(false);
-      }
-    };
-    fetchSurveyData();
-  }, []);
+  const [ isLoading, error, surveyDatas ] = useFetchSurveyData(`http://localhost:3001/api/survey`);
   return (
     <>
-      { isLoading ? (
+      { isLoading || error ? (
         <div className={'bg-gray-100 min-h-screen flex items-center justify-center'}>
-          {/*<p>Mavhungu Ronewa loading</p>*/}
-          <Spinner />
+          { <Spinner /> || error }
         </div>
         ): (
           <>

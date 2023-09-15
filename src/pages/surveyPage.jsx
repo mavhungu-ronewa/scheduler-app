@@ -1,37 +1,40 @@
 import { useEffect, useState } from 'react';
 import { useParams } from 'react-router-dom';
+import { NavigationComponent, Spinner, SurveyCardComponent } from "../components";
 import axios from 'axios';
-import { NavigationComponent, Spinner } from "../components";
+import useDataFetching from "../hooks/useDataFetching.jsx";
 
 const SurveyPage = () => {
   const { surveyId } = useParams();
-  const [surveyData, setSurveyData] = useState(null);
-
-  useEffect(() => {
-    const fetchSurveyData = async () => {
-      try {
-        const response = await axios.get(`http://localhost:3001/api/survey/${surveyId}`);
-        setSurveyData(response.data);
-      } catch (error) {
-        console.error('Error:', error);
-      }
-    };
-    fetchSurveyData()
-    ;
-  }, [surveyId]);
+  const [ loading, error, data ] = useDataFetching(`http://localhost:3001/api/survey/${surveyId}`);
+  // const [surveyData, setSurveyData] = useState(null);
+  //
+  // useEffect(() => {
+  //   const fetchSurveyData = async () => {
+  //     try {
+  //       const response = await axios.get(`http://localhost:3001/api/survey/${surveyId}`);
+  //       setSurveyData(response.data);
+  //     } catch (error) {
+  //       console.error('Error:', error);
+  //     }
+  //   };
+  //   fetchSurveyData()
+  //   ;
+  // }, [surveyId]);
 
   return (
     <div>
-      {surveyData ? (
-        <div>
-          <NavigationComponent />
-          <h2>Survey ID: {surveyData.id}</h2>
-          <p>Dates: {surveyData.dates}</p>
-          {/* Display other survey data */}
+      { loading || error ? (
+        <div className={'bg-gray-100 min-h-screen flex items-center justify-center'}>
+          {  <Spinner /> || error }
         </div>
       ) : (
-        <div className={'bg-gray-100 min-h-screen flex items-center justify-center'}>
-          <Spinner />
+        <div>
+          <NavigationComponent />
+          <h2>Survey ID: {data.id}</h2>
+          <p>Dates: {data.dates}</p>
+          {/* Display other survey data */}
+          <SurveyCardComponent />
         </div>
       )}
     </div>

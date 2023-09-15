@@ -1,11 +1,14 @@
 import React, { useContext } from "react";
 import { Link } from "react-router-dom";
 import ProductsContext from "../context/productsContext.jsx";
+import CategoryContext from "../context/CategoryContext.jsx";
 import { Spinner } from "../components/index.jsx";
 
 const PageNotFound = ()=>{
-  const { loading, error, lists } = useContext(ProductsContext);
-  console.log(lists);
+  // const { loading, error, lists } = useContext(ProductsContext);
+  const { loading, error, categories } = useContext(CategoryContext);
+  /*console.log(lists);*/
+  console.log(categories)
   return (
     <div className={'flex justify-center items-center h-screen'}>
       { loading || error ?

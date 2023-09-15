@@ -4,9 +4,9 @@ import useDataFetching from "../hooks/useDataFetching.jsx";
 export const CategoryContext = createContext();
 
 export const CategoryContextProvider = ({ children })=>{
-  const [ loading, error, data ] = useDataFetching('https://fakestoreapi.com/category');
+  const [ loading, error, data ] = useDataFetching('https://fakestoreapi.com/products/categories');
   return (
-    <CategoryContext.Provider value={{ categorys:data, loading, error }}>
+    <CategoryContext.Provider value={{ categories:data, loading, error }}>
       {children}
     </CategoryContext.Provider>
   )
