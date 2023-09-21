@@ -22,6 +22,31 @@ const SurveyPage = () => {
   //   ;
   // }, [surveyId]);
 
+  const generateBitlyLink = async (surveyId) => {
+    const response = await axios.post('http://localhost:3001/api/survey/generate-bitly', {
+      surveyId: surveyId,
+    });
+    console.log(response);
+    if(response.data.shortLink){
+      const bitlyLink = response.data.shortLink;
+      setSurveyLink(bitlyLink);
+      setIsSurveyCreated(true);
+    }
+    if(response.data.description){
+      const message = response.data.description;
+      setError(message);
+    }
+  };
+
+  const handleCopyLink = () => {
+    const input = document.createElement('input');
+    input.value = surveyLink;
+    document.body.appendChild(input);
+    input.select();
+    document.execCommand('copy');
+    document.body.removeChild(input);
+  };
+
   return (
     <div>
       { loading || error ? (
@@ -31,10 +56,7 @@ const SurveyPage = () => {
       ) : (
         <div>
           <NavigationComponent />
-          <h2>Survey ID: {data.id}</h2>
-          <p>Dates: {data.dates}</p>
-          {/* Display other survey data */}
-          <SurveyCardComponent />
+          <SurveyCardComponent title={data.dates} surveyId={data.id} onCopyLink={''} onDelete={data.id}/>
         </div>
       )}
     </div>

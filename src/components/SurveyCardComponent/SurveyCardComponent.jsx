@@ -11,11 +11,11 @@ const SurveyCardComponent = ({ title, surveyId, onDelete, onCopyLink })=>{
   };
 
   return (
-    <div className="bg-white rounded-lg shadow-md p-4 m-4 flex flex-col">
+    <div className="bg-white rounded-lg shadow-md p-4 m-4">
       <div className="mb-4">
         <h2 className="text-xl font-semibold">{title}</h2>
       </div>
-      <div className="mb-4">
+      <div className="flex mx-auto justify-between mb-4 items-center">
         <button
           className="bg-blue-500 text-white px-4 py-2 rounded-md mr-2"
           onClick={handleToggle}
@@ -23,7 +23,7 @@ const SurveyCardComponent = ({ title, surveyId, onDelete, onCopyLink })=>{
           Toggle
         </button>
         {isActive && (
-          <div className="flex mt-2">
+          <div className="mt-2 space-x-4">
             <Link
               to={`/survey/edit/${surveyId}`}
               className="bg-green-500 text-white px-4 py-2 rounded-md mr-2"
@@ -53,6 +53,16 @@ const SurveyCardComponent = ({ title, surveyId, onDelete, onCopyLink })=>{
             </div>
           </div>
         )}
+      </div>
+      <div className={''}>
+        <>
+          <FaTimes/>
+          <p>Starting time</p>
+        </>
+        <>
+          <FcOvertime/>
+          <p>OverTime</p>
+        </>
       </div>
     </div>
   )

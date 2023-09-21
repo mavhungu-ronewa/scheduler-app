@@ -1,4 +1,5 @@
 import { useState } from 'react';
+import { useNavigate} from 'react-router-dom';
 import axios from 'axios';
 import { useSnackbar } from 'notistack';
 import { v4 as uuid } from 'uuid';
@@ -7,10 +8,13 @@ import { Spinner } from "../index.jsx";
 const FormComponent =  ()=>{
   const { enqueueSnackbar } = useSnackbar();
   const [isSpinner,setIsSpinner] = useState(false);
+  const [title, setTitle ] = useState('');
+  const [description, setDescription ] = useState('');
   const [dates,setDates] = useState('');
   const [error,setError] = useState(null);
   const [surveyLink, setSurveyLink] = useState('');
   const [isSurveyCreated, setIsSurveyCreated] = useState(false);
+  const naviagte = useNavigate();
 
   const handleSubmit = async (e)=>{
     e.preventDefault();
@@ -22,6 +26,8 @@ const FormComponent =  ()=>{
     }
 
     const surveyData = {
+      title,
+      description,
       surveyId,
       dates,
     };
@@ -45,6 +51,7 @@ const FormComponent =  ()=>{
       setIsSurveyCreated(true);
       setIsSpinner(false);
       enqueueSnackbar('Survey created',{variant: 'success'});
+      naviagte(`/survey/${response.data.id}`)
     } catch (error) {
       console.error('Error:', error);
       setError('An error occurred while saving the survey.');
@@ -89,8 +96,21 @@ const FormComponent =  ()=>{
             <h1 className="text-2xl font-semibold text-center mb-4">Scheduler Application</h1>
             <form onSubmit={handleSubmit}>
               <label className={'block mb-2'}>
-                Date :
-                <input type={'datetime-local'} className={'w-full border rounded py-2 px-3'} value={dates} onChange={(e)=>setDates(e.target.value)} />
+                Title 2
+                <input type={'text'} className={'w-full border rounded py-2 px-3'}
+                  placeholder={"What's the occasion?"}
+                  onChange={(e)=>setTitle(e.target.value)} />
+              </label>
+              <label className={'block mb-2'}>
+                Description (optional)
+                <input type={'text'} className={'w-full border py-2 px-3'}
+                  onChange={(e)=>setDescription(e.target.value)}
+                  placeholder={'Here you can include something like agenda, instructions'}/>
+              </label>
+              <label className={'block mb-2'}>
+                Date
+                <input type={'datetime-local'} className={'w-full border rounded py-2 px-3'}
+                  value={dates} onChange={(e)=>setDates(e.target.value)} />
               </label>
               {error && <p className="text-red-500">{error}</p>} {/* Display error message */}
               <button type={'submit'} className={'bg-blue-500 text-white py-2 px-4 rounded-full'}>Create Survey</button>
