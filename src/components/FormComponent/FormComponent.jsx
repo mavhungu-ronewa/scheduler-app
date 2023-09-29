@@ -54,27 +54,30 @@ const FormComponent =  ()=>{
       naviagte(`/survey/${response.data.id}`)
     } catch (error) {
       console.error('Error:', error);
-      setError('An error occurred while saving the survey.');
+      setError('An error occurred while saving the survey.', error);
       setIsSpinner(false);
       enqueueSnackbar('Something went wrong', {variant: 'error'});
     }
+    setTitle('');
+    setDescription('');
     setDates('');
+    
   }
 
   const generateBitlyLink = async (surveyId) => {
-      const response = await axios.post('http://localhost:3001/api/survey/generate-bitly', {
-        surveyId: surveyId,
-      });
-      console.log(response);
-      if(response.data.shortLink){
-        const bitlyLink = response.data.shortLink;
-        setSurveyLink(bitlyLink);
-        setIsSurveyCreated(true);
-      }
-      if(response.data.description){
-        const message = response.data.description;
-        setError(message);
-      }
+    const response = await axios.post('http://localhost:3001/api/survey/generate-bitly', {
+      surveyId: surveyId,
+    });
+    console.log(response);
+    if(response.data.shortLink){
+      const bitlyLink = response.data.shortLink;
+      setSurveyLink(bitlyLink);
+      setIsSurveyCreated(true);
+    }
+    if(response.data.description){
+      const message = response.data.description;
+      setError(message);
+    }
   };
 
   const handleCopyLink = () => {
@@ -107,7 +110,7 @@ const FormComponent =  ()=>{
                   onChange={(e)=>setDescription(e.target.value)}
                   placeholder={'Here you can include something like agenda, instructions'}/>
               </label>
-              <label className={'block mb-2'}>
+              <label className={'block mb-3'}>
                 Date
                 <input type={'datetime-local'} className={'w-full border rounded py-2 px-3'}
                   value={dates} onChange={(e)=>setDates(e.target.value)} />

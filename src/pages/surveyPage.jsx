@@ -56,7 +56,9 @@ const SurveyPage = () => {
       ) : (
         <div>
           <NavigationComponent />
-          <SurveyCardComponent title={data.dates} surveyId={data.id} onCopyLink={''} onDelete={data.id}/>
+          <div className={'container mx-auto'}>
+            <SurveyCardComponent title={data.title} description={data.description} surveyId={data.id} onCopyLink={''} onDelete={data.id}/>
+          </div>
         </div>
       )}
     </div>
