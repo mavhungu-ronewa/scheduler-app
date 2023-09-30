@@ -3,6 +3,7 @@ import { useState, useEffect } from 'react';
 function useDataFetching (dataSource) {
   const [loading,setLoading] = useState(true);
   const [data,setData]= useState([]);
+  const [surveyUrl, setSurveyUrl] = useState('');
   const [error, setError ] = useState('');
 
   useEffect(()=>{
@@ -12,6 +13,7 @@ function useDataFetching (dataSource) {
         const result = await data.json();
         if (result) {
           setData(result);
+          setSurveyUrl(`http://localhost:5173/survey/${result.id}`);
           setLoading(false);
         }
       }catch (e) {
@@ -21,6 +23,6 @@ function useDataFetching (dataSource) {
     }
     fetchData();
   },[dataSource]);
-  return [loading, error, data];
+  return [loading, error, data, surveyUrl];
 }
 export default  useDataFetching;
