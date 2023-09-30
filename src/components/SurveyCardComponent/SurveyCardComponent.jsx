@@ -1,8 +1,10 @@
 import { useEffect, useRef, useState } from "react";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { FaTimes } from 'react-icons/fa';
 import { FcOvertime } from "react-icons/fc";
 import { FaChevronDown, FaChevronUp } from "react-icons/fa";
+import axios from "axios";
+import { enqueueSnackbar } from "notistack";
 
 const SurveyCardComponent = ({ title, surveyId, description, onDelete, onCopyLink })=>{
   const dropdownRef = useRef();
@@ -10,7 +12,7 @@ const SurveyCardComponent = ({ title, surveyId, description, onDelete, onCopyLin
   const [isActive, setIsActive] = useState(true);
   const [isCopied, setIsCopied] = useState(false);
   const [isOpen, setIsOpen] = useState(false);
-
+  const navigate = useNavigate();
   const toggleDropdown = () => {
     setIsOpen(!isOpen);
   };
@@ -32,6 +34,21 @@ const SurveyCardComponent = ({ title, surveyId, description, onDelete, onCopyLin
       setIsCopied(false);
     }, 1500);
   };
+
+  const handleDelete = (id)=>{
+    try{
+      const result = axios.delete(`http://localhost:3001/api/survey/${id}`);
+      console.log(result);
+      if(result){
+        enqueueSnackbar('Survey created',{variant: 'success'});
+        setTimeout(() => {
+          navigate(`/survey`);
+        }, 1500);
+      }
+    }catch (e) {
+      enqueueSnackbar('Something went wrong', {variant: e.message});
+    }
+  }
 
   const handleClickOutside = (event) => {
     if (dropdownRef.current && !dropdownRef.current.contains(event.target)) {
@@ -86,7 +103,7 @@ const SurveyCardComponent = ({ title, surveyId, description, onDelete, onCopyLin
                   <Link to={`/survey/invite/${surveyId}`} className="block px-4 py-2 w-full text-gray-700 hover:bg-gray-100 hover:text-gray-900" role="menuitem">
                     Email Invitation
                   </Link>
-                  <button onClick={() => onDelete(surveyId)} className="block px-4 py-2 w-full text-red-600 hover:bg-gray-100 hover:text-red-900" role="menuitem">
+                  <button onClick={() =>handleDelete(onDelete)} className="block px-4 py-2 w-full text-red-600 hover:bg-gray-100 hover:text-red-900" role="menuitem">
                     Delete
                   </button>
                 </div>

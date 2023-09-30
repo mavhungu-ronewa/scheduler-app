@@ -6,7 +6,6 @@ import useDataFetching from "../hooks/useDataFetching.jsx";
 const SurveyPage = () => {
   const { surveyId } = useParams();
   const [ loading, error, data , surveyUrl] = useDataFetching(`http://localhost:3001/api/survey/${surveyId}`);
-
   const generateBitlyLink = async (surveyId) => {
     const response = await axios.post('http://localhost:3001/api/survey/generate-bitly', {
       surveyId: surveyId,
@@ -33,7 +32,11 @@ const SurveyPage = () => {
         <div>
           <NavigationComponent />
           <div className={'container mx-auto'}>
-            <SurveyCardComponent title={data.title} description={data.description} surveyId={data.id} onCopyLink={surveyUrl} onDelete={data.id}/>
+            {data.error ?
+              <>Nothing has been found</>
+              :
+              <SurveyCardComponent title={data.title} description={data.description} surveyId={data.id} onCopyLink={surveyUrl} onDelete={data.id}/>
+            }
           </div>
         </div>
       )}
