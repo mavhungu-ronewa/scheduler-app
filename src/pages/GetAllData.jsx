@@ -19,6 +19,8 @@ const GetAllData = ()=>{
                     key={i}
                     id={surveyDatas[i].id}
                     dates={surveyDatas[i].dates}
+                    title={surveyDatas[i].title}
+                    description={surveyDatas[i].description}
                   />
                 )
               })}

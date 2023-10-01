@@ -117,7 +117,7 @@ const SurveyCardComponent = ({ title, surveyId, description, onDelete, onCopyLin
           {
             description && (
               <div className={'mb-4'}>
-                <h2>Description</h2>
+                <h2>{description}</h2>
               </div>
             )
           }

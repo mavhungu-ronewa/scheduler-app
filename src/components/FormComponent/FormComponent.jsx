@@ -99,7 +99,7 @@ const FormComponent =  ()=>{
             <h1 className="text-2xl font-semibold text-center mb-4">Scheduler Application</h1>
             <form onSubmit={handleSubmit}>
               <label className={'block mb-2'}>
-                Title 2
+                Title
                 <input type={'text'} className={'w-full border rounded py-2 px-3'}
                   placeholder={"What's the occasion?"}
                   onChange={(e)=>setTitle(e.target.value)} />
