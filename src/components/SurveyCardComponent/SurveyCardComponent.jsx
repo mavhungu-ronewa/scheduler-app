@@ -1,10 +1,12 @@
 import { useEffect, useRef, useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
-import { FaTimes } from 'react-icons/fa';
-import { FcOvertime } from "react-icons/fc";
-import { FaChevronDown, FaChevronUp } from "react-icons/fa";
 import axios from "axios";
 import { enqueueSnackbar } from "notistack";
+import { BsTextLeft, BsGlobe } from "react-icons/bs";
+import { BiSolidVideo } from "react-icons/bi";
+import { MdOutlineAccessTime } from "react-icons/md";
+import { FaChevronDown, FaChevronUp } from "react-icons/fa";
+import { FaLocationDot } from "react-icons/fa6";
 
 const SurveyCardComponent = ({ title, surveyId, description, onDelete, onCopyLink })=>{
   const dropdownRef = useRef();
@@ -116,18 +118,27 @@ const SurveyCardComponent = ({ title, surveyId, description, onDelete, onCopyLin
         <div>
           {
             description && (
-              <div className={'mb-4'}>
+              <div className={'flex justify-start items-center relative gap-3 mb-2'}>
+                <BsTextLeft className={'text-gray-400'}/>
                 <h2>{description}</h2>
               </div>
             )
           }
         </div>
+        <div className={'flex relative items-center gap-3 mb-2'}>
+          <MdOutlineAccessTime size={24} className={'text-gray-400'}/>
+          <p>OverTime</p>
+        </div>
         <div className={'flex justify-start items-center relative gap-3 mb-2'}>
-          <FaTimes size={24}/>
+          <FaLocationDot size={24} className={'text-gray-400'}/>
           <p>Starting time</p>
         </div>
         <div className={'flex relative items-center gap-3 mb-2'}>
-          <FcOvertime size={24}/>
+          <BiSolidVideo size={24}/>
+          <p>OverTime</p>
+        </div>
+        <div className={'flex relative items-center gap-3 mb-2'}>
+          <BsGlobe size={24} className={'text-gray-400'}/>
           <p>OverTime</p>
         </div>
     </div>

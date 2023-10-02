@@ -1,6 +1,10 @@
 import moment from 'moment';
 import { PiBookOpenTextLight } from "react-icons/pi";
-import { FaLocationPin } from "react-icons/fa6";
+import { FaLocationPin, FaLocationDot  } from "react-icons/fa6";
+import { BsTextLeft, BsGlobe } from "react-icons/bs";
+import { BiSolidVideo } from "react-icons/bi";
+import { MdOutlineAccessTime } from "react-icons/md";
+/*import { FaChevronDown, FaChevronUp } from "react-icons/fa";*/
 
 const CardComponent = ({id, dates, title, description})=>{
   moment.locale();
@@ -17,12 +21,24 @@ const CardComponent = ({id, dates, title, description})=>{
       </h2>
       <h4 className='my-2 text-gray-500'>{dateFormat(dates)}</h4>
       <div className='flex justify-start items-center gap-x-2'>
-        <PiBookOpenTextLight className='text-red-300 text-2xl' />
+        <PiBookOpenTextLight className='text-gray-400 text-2xl' />
+        <h2 className='my-1'>{dateFormat(dates)}</h2>
+      </div>
+      <div className='flex justify-start items-center gap-x-2'>
+        <MdOutlineAccessTime className='text-gray-400 text-2xl' />
+        <h2 className='my-1'>{dateFormat(dates)}</h2>
+      </div>
+      <div className='flex justify-start items-center gap-x-2'>
+        <BiSolidVideo className='text-gray-400 text-2xl' />
+        <h2 className='my-1'>{dateFormat(dates)}</h2>
+      </div>
+      <div className='flex justify-start items-center gap-x-2'>
+        <PiBookOpenTextLight className='text-gray-400 text-2xl' />
         <h2 className='my-1'>{dateFormat(dates)}</h2>
       </div>
       {description && (
         <div className={'flex justify-start items-center gap-x-2'}>
-          <FaLocationPin className={'text-red text-2xl'} />
+          <BsTextLeft className={'text-gray-400 text-2xl'} />
           <h2 className={'my-1'}>{description}</h2>
         </div>
       )}
