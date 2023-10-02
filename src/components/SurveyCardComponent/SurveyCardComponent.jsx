@@ -2,10 +2,12 @@ import { useEffect, useRef, useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import axios from "axios";
 import { enqueueSnackbar } from "notistack";
-import { BsTextLeft, BsGlobe } from "react-icons/bs";
+import { BsTextLeft } from "react-icons/bs";
+import { VscGlobe } from "react-icons/vsc";
 import { BiSolidVideo } from "react-icons/bi";
-import { MdOutlineAccessTime } from "react-icons/md";
+import { MdOutlineAccessTime, MdMail } from "react-icons/md";
 import { FaChevronDown, FaChevronUp } from "react-icons/fa";
+import { IoMdTrash } from "react-icons/io";
 import { FaLocationDot } from "react-icons/fa6";
 
 const SurveyCardComponent = ({ title, surveyId, description, onDelete, onCopyLink })=>{
@@ -102,11 +104,11 @@ const SurveyCardComponent = ({ title, surveyId, description, onDelete, onCopyLin
               {isOpen && (
               <div className="origin-top-right absolute right-0 mt-2 w-48 rounded-md shadow-lg bg-white ring-1 ring-black ring-opacity-5">
                 <div className="py-1" role="menu" aria-orientation="vertical" aria-labelledby="options-menu">
-                  <Link to={`/survey/invite/${surveyId}`} className="block px-4 py-2 w-full text-gray-700 hover:bg-gray-100 hover:text-gray-900" role="menuitem">
-                    Email Invitation
+                  <Link to={`/survey/invite/${surveyId}`} className="flex items-center gap-2 block px-4 py-2 w-full text-gray-700 hover:bg-gray-100 hover:text-gray-900" role="menuitem">
+                    <MdMail /><span>Email Invitation</span>
                   </Link>
-                  <button onClick={() =>handleDelete(onDelete)} className="block px-4 py-2 w-full text-red-600 hover:bg-gray-100 hover:text-red-900" role="menuitem">
-                    Delete
+                  <button onClick={() =>handleDelete(onDelete)} className="flex items-center gap-2 block px-4 py-2 w-full text-red-600 hover:bg-gray-100 hover:text-red-900" role="menuitem">
+                    <IoMdTrash /><span>Delete</span>
                   </button>
                 </div>
               </div>
@@ -115,31 +117,31 @@ const SurveyCardComponent = ({ title, surveyId, description, onDelete, onCopyLin
           </div>
         )}
       </div>
+        <div className={'flex relative items-center gap-3 mb-2'}>
+          <MdOutlineAccessTime className={'text-gray-400 text-2xl'}/>
+          <p>OverTime</p>
+        </div>
+        <div className={'flex justify-start items-center relative gap-3 mb-2'}>
+          <FaLocationDot className={'text-gray-400 text-2xl'}/>
+          <p>Starting time</p>
+        </div>
+        <div className={'flex relative items-center gap-3 mb-2'}>
+          <BiSolidVideo className={'text-gray-400 text-2xl'}/>
+          <p>OverTime</p>
+        </div>
+        <div className={'flex relative items-center gap-3 mb-2'}>
+          <VscGlobe className={'text-gray-400 text-2xl'}/>
+          <p>OverTime</p>
+        </div>
         <div>
           {
             description && (
               <div className={'flex justify-start items-center relative gap-3 mb-2'}>
-                <BsTextLeft className={'text-gray-400'}/>
+                <BsTextLeft className={'text-gray-400 text-2xl'}/>
                 <h2>{description}</h2>
               </div>
             )
           }
-        </div>
-        <div className={'flex relative items-center gap-3 mb-2'}>
-          <MdOutlineAccessTime size={24} className={'text-gray-400'}/>
-          <p>OverTime</p>
-        </div>
-        <div className={'flex justify-start items-center relative gap-3 mb-2'}>
-          <FaLocationDot size={24} className={'text-gray-400'}/>
-          <p>Starting time</p>
-        </div>
-        <div className={'flex relative items-center gap-3 mb-2'}>
-          <BiSolidVideo size={24}/>
-          <p>OverTime</p>
-        </div>
-        <div className={'flex relative items-center gap-3 mb-2'}>
-          <BsGlobe size={24} className={'text-gray-400'}/>
-          <p>OverTime</p>
         </div>
     </div>
   )
