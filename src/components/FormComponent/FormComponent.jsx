@@ -8,6 +8,18 @@ import { Spinner } from "../index.jsx";
 const FormComponent =  ()=>{
   const { enqueueSnackbar } = useSnackbar();
   const [isSpinner,setIsSpinner] = useState(false);
+  const [form, setForm] = useState({
+    title:'',
+    description:'',
+    dates:''
+  });
+
+  const handleForm = (e)=>{
+    setForm(
+      ...form,
+      [e.target.name]= e.target.value,
+    )
+  }
   const [title, setTitle ] = useState('');
   const [description, setDescription ] = useState('');
   const [dates,setDates] = useState('');
@@ -102,18 +114,20 @@ const FormComponent =  ()=>{
                 Title
                 <input type={'text'} className={'w-full border rounded py-2 px-3'}
                   placeholder={"What's the occasion?"}
+                  name={'title'}
                   onChange={(e)=>setTitle(e.target.value)} />
               </label>
               <label className={'block mb-2'}>
                 Description (optional)
                 <input type={'text'} className={'w-full border py-2 px-3'}
                   onChange={(e)=>setDescription(e.target.value)}
+                  name={'description'}
                   placeholder={'Here you can include something like agenda, instructions'}/>
               </label>
               <label className={'block mb-3'}>
                 Date
                 <input type={'datetime-local'} className={'w-full border rounded py-2 px-3'}
-                  value={dates} onChange={(e)=>setDates(e.target.value)} />
+                  value={dates} name={'dates'} onChange={(e)=>setDates(e.target.value)} />
               </label>
               {error && <p className="text-red-500">{error}</p>} {/* Display error message */}
               <button type={'submit'} className={'bg-blue-500 text-white py-2 px-4 rounded-full'}>Create Survey</button>
