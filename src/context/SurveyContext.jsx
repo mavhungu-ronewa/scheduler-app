@@ -13,9 +13,9 @@ export const SurveyContextProvider = ({ children })=>{
       const result = await axios.get(`http://localhost:3001/api/survey/${listId}`);
       /*const result = await data.json();*/
       if(result){
-        setItems(result);
+        setItems(result.data);
         setLoading(false);
-       /* console.log("items is", items);*/
+        /*console.log("hooks items is:", result);*/
       }
     }catch (e){
       setLoading(false);

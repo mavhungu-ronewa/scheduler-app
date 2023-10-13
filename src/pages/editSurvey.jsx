@@ -1,57 +1,112 @@
-import { useState, useEffect, useContext } from 'react';
-import { NavigationComponent, Spinner } from "../components";
-import { useNavigate, useParams } from "react-router-dom";
+import { useContext, useEffect, useState } from 'react';
+import { useParams } from 'react-router-dom';
+import axios from "axios";
 import SurveyContext from "../context/SurveyContext.jsx";
+import { NavigationComponent, Spinner } from "../components/index.jsx";
 
-const EditSurvey = ()=>{
-  let navigate = useNavigate();
+function EditSurvey() {
   const { surveyId } = useParams();
-  const { loading, error, items, fetchItems }= useContext(SurveyContext);
+  const { items, loading, error, fetchItems } = useContext(SurveyContext);
 
-  const [forms,setForm] = useState({
-    title:"",
-    description:"",
-    dates:""
+  const [formData, setFormData] = useState({
+    title: '',
+    description: '',
+    dates: '',
   });
 
-  console.log(items);
+  useEffect(() => {
+    fetchItems(surveyId); // Use fetchItems bt passing surveyId
+  }, [fetchItems, surveyId]);
 
-  const handleForm =(e)=>{
+  useEffect(() => {
+    if (!loading && !error) {
+      setFormData({
+        title: items.title,
+        description: items.description,
+        dates: items.dates,
+      });
+    }
+  }, [loading, error, items]);
 
-    setForm({
-      ...forms,
-      [e.target.name]: e.target.value,
-    })
+  const handleInputChange = (e) => {
+    const { name, value } = e.target;
+    setFormData({
+      ...formData,
+      [name]: value,
+    });
   };
-  const SubmitForm= (e)=>{
+
+  const handleSubmit = async (e) => {
     e.preventDefault();
-    console.log(forms);
+    // Saving data using the formData
+    try {
+      const result = await axios.put(`http://localhost:3001/api/survey/${surveyId}`, formData);
+      console.log('returned values after update', result);
+      /*if (result) {
+        navigate('/survey');
+      }*/
+    } catch (error) {
+      console.error('Error updating survey:', error);
+    }
+  };
+
+/*  if (loading) {
+    return <div>Loading...</div>;
   }
 
-  useEffect(()=>{
-    surveyId && fetchItems(surveyId);
-  }, [fetchItems, surveyId]);
+  if (error) {
+    return <div>Error: {error}</div>;
+  }*/
 
   return (
     <>
       <NavigationComponent />
-      <div className={'bg-gray-100 min-h-screen flex items-center justify-center'}>
-        { loading || error ?
+      <div className="bg-gray-100 min-h-screen flex items-center justify-center">
+        {loading || error ? (
           <>
-            { <Spinner /> || error }
+            {loading ? <Spinner /> : error}
           </>
-          :
-          <div className={'bg-white p-6 rounded-lg shadow-md w-96'}>
-            <form onSubmit={SubmitForm}>
-              <input type={'text'} name={'title'} defaultValue={items.data.title} placeholder={'Enter the Title'} onChange={handleForm} className={'w-full border rounded py-2 px-3 mb-3'} />
-              <input type={'text'} name={'description'} defaultValue={items.data.description} placeholder={'Enter the Description'} onChange={handleForm} className={'w-full border rounded py-2 px-3 mb-3'}/>
-              <input type={'datetime-local'} name={'dates'} defaultValue={items.data.dates} onChange={handleForm} className={'w-full border rounded py-2 px-3 mb-3'}/>
-              <button type={'submit'} className={'bg-blue-500 text-white py-2 px-4 rounded-full'}>Submit</button>
-            </form>
-          </div>
-        }
+        ) : (
+        <div className="bg-white p-6 rounded-lg shadow-md w-96">
+          <form onSubmit={handleSubmit}>
+            <div>
+              <label>Title:</label>
+              <input
+                type="text"
+                name="title"
+                value={formData.title}
+                onChange={handleInputChange}
+                placeholder="Enter the Title"
+                className="w-full border rounded py-2 px-3 mb-3"
+              />
+            </div>
+            <div>
+              <label>Description:</label>
+              <textarea
+                name="description"
+                value={formData.description}
+                onChange={handleInputChange}
+                placeholder="Enter the Description"
+                className="w-full border rounded py-2 px-3 mb-3"
+              />
+            </div>
+            <div>
+              <label>Dates:</label>
+              <input
+                type="datetime-local"
+                name="dates"
+                value={formData.dates}
+                onChange={handleInputChange}
+                className="w-full border rounded py-2 px-3 mb-3"
+              />
+            </div>
+            <button type="submit" className="bg-blue-500 text-white py-2 px-4 rounded-full">Save Changes</button>
+          </form>
+        </div>
+          )}
       </div>
     </>
-  )
+  );
 }
+
 export default EditSurvey;
