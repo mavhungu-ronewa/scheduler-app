@@ -14,7 +14,9 @@ ReactDOM.createRoot(document.getElementById("root")).render(
       {/*<ProductsContextProvider>
         <CategoryContextProvider>*/}
           <SurveyContextProvider>
-            <SnackbarProvider>
+            <SnackbarProvider
+              anchorOrigin={{vertical:'top',horizontal:'right'}}
+            >
               <App />
             </SnackbarProvider>
           </SurveyContextProvider>
