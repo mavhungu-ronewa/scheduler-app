@@ -6,58 +6,49 @@ import { v4 as uuid } from 'uuid';
 import { Spinner } from "../index.jsx";
 
 const FormComponent =  ()=>{
-  const { enqueueSnackbar } = useSnackbar();
+  const naviagte = useNavigate();
+  const surveyId = uuid();
   const [isSpinner,setIsSpinner] = useState(false);
-  const [form, setForm] = useState({
+  const [error,setError] = useState(null);
+  const { enqueueSnackbar } = useSnackbar();
+  const [surveyLink, setSurveyLink] = useState('');
+  const [isSurveyCreated, setIsSurveyCreated] = useState(false);
+
+  const [forms, setForm] = useState({
+    surveyId,
     title:'',
     description:'',
     dates:''
   });
-
   const handleForm = (e)=>{
-    setForm(
-      ...form,
-      [e.target.name]= e.target.value,
-    )
+    e.preventDefault();
+    const { name, value } = e.target;
+    setForm({
+      ...forms,
+      [name]:value,
+    })
   }
-  const [title, setTitle ] = useState('');
-  const [description, setDescription ] = useState('');
-  const [dates,setDates] = useState('');
-  const [error,setError] = useState(null);
-  const [surveyLink, setSurveyLink] = useState('');
-  const [isSurveyCreated, setIsSurveyCreated] = useState(false);
-  const naviagte = useNavigate();
 
   const handleSubmit = async (e)=>{
     e.preventDefault();
-    const surveyId = uuid();
-
-    if(!dates){
+    if(!forms.dates){
       setError("Please enter possible dates");
       return;
     }
 
-    const surveyData = {
-      title,
-      description,
-      surveyId,
-      dates,
-    };
-
-    // try {
-    //   const response = await axios.post('http://localhost:3001/api/survey', surveyData);
-    //   // console.log('Survey Details:', response.data);
-    //   console.log('Backend data', response.data);
-    //   generateBitlyLink(surveyId);
-    //
-    // } catch (error) {
-    //   console.error('Error:', error);
-    //   setError('An error occurred while saving the survey.');
-    // }
+    /*try {
+      const response = await axios.post('http://localhost:3001/api/survey', surveyData);
+      // console.log('Survey Details:', response.data);
+      console.log('Backend data', response.data);
+      generateBitlyLink(surveyId);
+    } catch (error) {
+      console.error('Error:', error);
+      setError('An error occurred while saving the survey.');
+    }*/
 
     try {
       setIsSpinner(true);
-      const response = await axios.post('http://localhost:3001/api/survey', surveyData);
+      const response = await axios.post('http://localhost:3001/api/survey', forms);
       const link = `http://localhost:5173/survey/${response.data.id}`;
       setSurveyLink(link);
       setIsSurveyCreated(true);
@@ -70,9 +61,9 @@ const FormComponent =  ()=>{
       setIsSpinner(false);
       enqueueSnackbar('Something went wrong', {variant: 'error'});
     }
-    setTitle('');
+/*    setTitle('');
     setDescription('');
-    setDates('');
+    setDates('');*/
     
   }
 
@@ -115,22 +106,22 @@ const FormComponent =  ()=>{
                 <input type={'text'} className={'w-full border rounded py-2 px-3'}
                   placeholder={"What's the occasion?"}
                   name={'title'}
-                  onChange={(e)=>setTitle(e.target.value)} />
+                  onChange={handleForm} required />
               </label>
               <label className={'block mb-2'}>
                 Description (optional)
-                <input type={'text'} className={'w-full border py-2 px-3'}
-                  onChange={(e)=>setDescription(e.target.value)}
+                <textarea
+                  className={'w-full border py-2 px-3'}
+                  onChange={handleForm}
                   name={'description'}
-                  placeholder={'Here you can include something like agenda, instructions'}/>
+                  placeholder={'Here you can include something like agenda, instructions'} required />
               </label>
               <label className={'block mb-3'}>
                 Date
-                <input type={'datetime-local'} className={'w-full border rounded py-2 px-3'}
-                  value={dates} name={'dates'} onChange={(e)=>setDates(e.target.value)} />
+                <input type={'datetime-local'} className={'w-full border rounded py-2 px-3'} value={forms.dates} name={'dates'} onChange={handleForm} required />
               </label>
               {error && <p className="text-red-500">{error}</p>} {/* Display error message */}
-              <button type={'submit'} className={'bg-blue-500 text-white py-2 px-4 rounded-full'}>Create Survey</button>
+              <button type={'submit'} className="bg-blue-500 text-white py-2 px-4 rounded-full">Create Survey</button>
             </form>
             { isSurveyCreated && (
               <div className="mt-4">
