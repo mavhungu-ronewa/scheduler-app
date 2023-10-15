@@ -33,7 +33,7 @@ const SurveyPage = () => {
           <NavigationComponent />
           <div className={'container mx-auto'}>
             {data.error ?
-              <>Nothing has been found</>
+              <p className={'items-center'}>Nothing has been found</p>
               :
               <SurveyCardComponent title={data.title} description={data.description} surveyId={data.id} onCopyLink={surveyUrl} onDelete={data.id}/>
             }
