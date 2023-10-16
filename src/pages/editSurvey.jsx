@@ -15,7 +15,7 @@ function EditSurvey() {
   });
 
   useEffect(() => {
-    fetchItems(surveyId); // Use fetchItems bt passing surveyId
+    fetchItems(surveyId); // Use fetchItems by passing surveyId
   }, [fetchItems, surveyId]);
 
   useEffect(() => {
@@ -49,14 +49,6 @@ function EditSurvey() {
       console.error('Error updating survey:', error);
     }
   };
-
-/*  if (loading) {
-    return <div>Loading...</div>;
-  }
-
-  if (error) {
-    return <div>Error: {error}</div>;
-  }*/
 
   return (
     <>

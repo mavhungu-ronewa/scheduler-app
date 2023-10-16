@@ -10,7 +10,7 @@ import { FaChevronDown, FaChevronUp } from "react-icons/fa";
 import { IoMdTrash } from "react-icons/io";
 import { FaLocationDot } from "react-icons/fa6";
 
-const SurveyCardComponent = ({ title, surveyId, description, onDelete, onCopyLink })=>{
+const SurveyCardComponent = ({ title, surveyId, description, onDelete, onCopyLink, createdSurvey })=>{
   const dropdownRef = useRef();
   const surveyLink = onCopyLink;
   const [isActive, setIsActive] = useState(true);
@@ -91,10 +91,13 @@ const SurveyCardComponent = ({ title, surveyId, description, onDelete, onCopyLin
             >
               Edit
             </Link>
-            <div className="relative inline-block">
-              <input className="w-full border rounded py-2 px-3" type="text" value={surveyLink} readOnly hidden={true} />
-              <button className={`bg-${isCopied ? 'green' : 'blue'}-500 text-white py-2 px-4 rounded-md mr-2`} onClick={handleCopyLink}>Copy</button>
-            </div>
+            {
+              createdSurvey &&
+              <div className="relative inline-block">
+                <input className="w-full border rounded py-2 px-3" type="text" value={surveyLink} readOnly hidden={true} />
+                <button className={`bg-${isCopied ? 'green' : 'blue'}-500 text-white py-2 px-4 rounded-md mr-2`} onClick={handleCopyLink}>Copy</button>
+              </div>
+            }
             <div className="relative inline-block text-left" ref={dropdownRef}>
               <button className="flex items-center bg-gray-300 text-gray-700 px-4 py-2 rounded-md" onClick={toggleDropdown}>
                 More

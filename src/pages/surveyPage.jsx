@@ -5,22 +5,7 @@ import useDataFetching from "../hooks/useDataFetching.jsx";
 
 const SurveyPage = () => {
   const { surveyId } = useParams();
-  const [ loading, error, data , surveyUrl] = useDataFetching(`http://localhost:3001/api/survey/${surveyId}`);
-  const generateBitlyLink = async (surveyId) => {
-    const response = await axios.post('http://localhost:3001/api/survey/generate-bitly', {
-      surveyId: surveyId,
-    });
-    console.log(response);
-    if(response.data.shortLink){
-      const bitlyLink = response.data.shortLink;
-      setSurveyLink(bitlyLink);
-      setIsSurveyCreated(true);
-    }
-    if(response.data.description){
-      const message = response.data.description;
-      setError(message);
-    }
-  };
+  const [ loading, error, data , surveyUrl, isSurveyCreated] = useDataFetching(`http://localhost:3001/api/survey/${surveyId}`);
 
   return (
     <div>
@@ -35,7 +20,7 @@ const SurveyPage = () => {
             {data.error ?
               <p className={'items-center'}>Nothing has been found</p>
               :
-              <SurveyCardComponent title={data.title} description={data.description} surveyId={data.id} onCopyLink={surveyUrl} onDelete={data.id}/>
+              <SurveyCardComponent title={data.title} description={data.description} surveyId={data.id} onCopyLink={surveyUrl} onDelete={data.id} createdSurvey={isSurveyCreated}/>
             }
           </div>
         </div>
