@@ -11,11 +11,9 @@ export const SurveyContextProvider = ({ children })=>{
   const fetchItems = useCallback(async (listId)=>{
     try {
       const result = await axios.get(`http://localhost:3001/api/survey/${listId}`);
-      /*const result = await data.json();*/
       if(result){
         setItems(result.data);
         setLoading(false);
-        /*console.log("hooks items is:", result);*/
       }
     }catch (e){
       setLoading(false);
