@@ -9,6 +9,7 @@ const FormComponent =  ()=>{
   const naviagte = useNavigate();
   const surveyId = uuid();
   const [isSpinner,setIsSpinner] = useState(false);
+  const [isVideoCon, setIsVideoCon] = useState(false);
   const [error,setError] = useState(null);
   const { enqueueSnackbar } = useSnackbar();
 
@@ -16,8 +17,15 @@ const FormComponent =  ()=>{
     surveyId,
     title:'',
     description:'',
+    location:'',
+    videoService:'',
+    duration:'',
     dates:''
   });
+
+  const handleToggle = () => {
+    setIsVideoCon(!isVideoCon);
+  };
   const handleForm = (e)=>{
     e.preventDefault();
     const { name, value } = e.target;
@@ -70,6 +78,39 @@ const FormComponent =  ()=>{
                 onChange={handleForm}
                 name={'description'}
                 placeholder={'Here you can include something like agenda, instructions'} required />
+            </label>
+            <label className={'block mb-2'}>
+              Location (optional)
+              <input type={'text'} className={'w-full border rounded py-2 px-3'}
+              name={'location'}
+              onChange={handleForm}
+              placeholder={'Enter location'}/>
+            </label>
+            <label className={'block mb-2'}>
+              <div className={'flex justify-start mb-2 mt-2'}>
+                <div className={'relative inline-block w-10 mr-2 align-middle select-none'}>
+                  <input type='checkbox' name={'toggle'} id='Blue' onChange={()=>handleToggle()} className={'checked:bg-blue-500 outline-none focus:outline-none right-4 checked:right-0 duration-200 ease-in absolute block w-6 h-6 rounded-full bg-white border-4 appearance-none cursor-pointer'}/>
+                  <label htmlFor='Blue' className={`block h-6 overflow-hidden rounded-full cursor-pointer ${isVideoCon ? 'bg-green-300' : 'bg-gray-300'}`} />
+                </div>
+                <span className={'ml-1 font-semibold'}>Video conferencing</span>
+              </div>
+              { isVideoCon && (
+                <select className={'w-full border rounded py-2 px-3'} name={'videoService'} value={forms.videoService} onChange={handleForm}>
+                  <option value="">Select video service</option>
+                  <option value='zoom'>Zoom</option>
+                  <option value='google-meet'>Google Meet</option>
+                </select>
+              )}
+            </label>
+            <label className={'block mb-2'}>
+              Duration
+              <select className={'w-full border rounded py-2 px-3'} name={'duration'} value={forms.duration} onChange={handleForm}>
+                <option value="">Select duration</option>
+                <option value={'15'}>15 Minutes</option>
+                <option value={'30'}>30 Minutes</option>
+                <option value={'45'}>45 Minutes</option>
+                <option value={'60'}>60 Minutes</option>
+              </select>
             </label>
             <label className={'block mb-3'}>
               Date

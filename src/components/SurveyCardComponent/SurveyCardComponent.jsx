@@ -10,7 +10,7 @@ import { FaChevronDown, FaChevronUp } from "react-icons/fa";
 import { IoMdTrash } from "react-icons/io";
 import { FaLocationDot } from "react-icons/fa6";
 
-const SurveyCardComponent = ({ title, surveyId, description, onDelete, onCopyLink, createdSurvey })=>{
+const SurveyCardComponent = ({ title, surveyId, description, onDelete, onCopyLink, createdSurvey, videoService, duration })=>{
   const dropdownRef = useRef();
   const surveyLink = onCopyLink;
   const [isActive, setIsActive] = useState(true);
@@ -122,7 +122,7 @@ const SurveyCardComponent = ({ title, surveyId, description, onDelete, onCopyLin
       </div>
         <div className={'flex relative items-center gap-3 mb-2'}>
           <MdOutlineAccessTime className={'text-gray-400 text-2xl'}/>
-          <p>OverTime</p>
+          <p>{duration}</p>
         </div>
         <div className={'flex justify-start items-center relative gap-3 mb-2'}>
           <FaLocationDot className={'text-gray-400 text-2xl'}/>
@@ -130,7 +130,7 @@ const SurveyCardComponent = ({ title, surveyId, description, onDelete, onCopyLin
         </div>
         <div className={'flex relative items-center gap-3 mb-2'}>
           <BiSolidVideo className={'text-gray-400 text-2xl'}/>
-          <p>OverTime</p>
+          <p>{videoService}</p>
         </div>
         <div className={'flex relative items-center gap-3 mb-2'}>
           <VscGlobe className={'text-gray-400 text-2xl'}/>

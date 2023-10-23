@@ -20,7 +20,7 @@ const SurveyPage = () => {
             {data.error ?
               <p className={'items-center'}>Nothing has been found</p>
               :
-              <SurveyCardComponent title={data.title} description={data.description} surveyId={data.id} onCopyLink={surveyUrl} onDelete={data.id} createdSurvey={isSurveyCreated}/>
+              <SurveyCardComponent title={data.title} description={data.description} location={data.location} videoService={data.videoService} duration={data.duration} surveyId={data.id} onCopyLink={surveyUrl} onDelete={data.id} createdSurvey={isSurveyCreated}/>
             }
           </div>
         </div>
