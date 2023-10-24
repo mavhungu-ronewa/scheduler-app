@@ -77,7 +77,7 @@ const FormComponent =  ()=>{
                 className={'w-full border py-2 px-3'}
                 onChange={handleForm}
                 name={'description'}
-                placeholder={'Here you can include something like agenda, instructions'} required />
+                placeholder={'Here you can include something like agenda, instructions'} />
             </label>
             <label className={'block mb-2'}>
               Location (optional)
@@ -104,12 +104,12 @@ const FormComponent =  ()=>{
             </label>
             <label className={'block mb-2'}>
               Duration
-              <select className={'w-full border rounded py-2 px-3'} name={'duration'} value={forms.duration} onChange={handleForm}>
+              <select className={'w-full border rounded py-2 px-3'} name={'duration'} value={forms.duration} onChange={handleForm} required>
                 <option value="">Select duration</option>
-                <option value={'15'}>15 Minutes</option>
-                <option value={'30'}>30 Minutes</option>
-                <option value={'45'}>45 Minutes</option>
-                <option value={'60'}>60 Minutes</option>
+                <option value={'15 Minutes'}>15 Minutes</option>
+                <option value={'30 Minutes'}>30 Minutes</option>
+                <option value={'45 Minutes'}>45 Minutes</option>
+                <option value={'1 Hour'}>60 Minutes</option>
               </select>
             </label>
             <label className={'block mb-3'}>
